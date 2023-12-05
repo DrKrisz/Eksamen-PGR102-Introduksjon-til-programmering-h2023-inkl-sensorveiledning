@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Kappløpet</title>
+		<!-- CSS skal ikke røres -->
+		<link
+			rel="stylesheet"
+			href="css-skal-ikke-roeres/kapploepet.css" />
+	</head>
+	<body>
+		<div id="container"
+			><!-- DET ER IKKE LOV Å ENDRE PÅ NOE I HTML-KODEN! -->
+
+			<h1 id="main-heading">Kappløpet</h1>
+			<h2 id="winner-status">Løpet er i gang</h2>
+
+			<input
+				id="move-miaows-left-leg-btn"
+				type="button"
+				value="Beveg Miaows venstre ben" />
+			<input
+				id="move-miaows-right-leg-btn"
+				type="button"
+				value="Beveg Miaows høyre ben" />
+
+			<div id="pond"></div>
+			<div id="finish-line"></div>
+			<img
+				id="building"
+				src="images/building-2.png" />
+
+			<img
+				id="eskilpadde"
+				src="images/eskilpadde.png" />
+
+			<img
+				id="miaow-miaow"
+				src="images/miaow-miaow-runner.png" />
+
+			<img
+				id="geir-geit"
+				src="images/geirgeit.png" /> </div
+		><!-- DET ER IKKE LOV Å ENDRE PÅ NOE I HTML-KODEN! -->
+
+		<script>
+			let winner = null;
+			let eskilpaddePosition = 0;
+			let geirGeitPosition = 0;
+			let miaowMiaowPosition = 0;
+
+			const intervalId = setInterval(function () {
+				eskilpaddePosition += 3;
+				geirGeitPosition += 12;
+
+				// GeirGeit har 10% sjanse for å hoppe tilbake
+				if (Math.random() < 0.1) {
+					geirGeitPosition -= 10;
+				}
+
+				document.getElementById("eskilpadde").style.left = eskilpaddePosition + "px";
+				document.getElementById("geir-geit").style.left = geirGeitPosition + "px";
+
+				// Sjekk om noen har kommet over mållinjen
+				if (eskilpaddePosition >= 800) {
+					winner = "Eskildpadde";
+					clearInterval(intervalId);
+				} else if (geirGeitPosition >= 800) {
+					winner = "GeirGeit";
+					clearInterval(intervalId);
+				} else if (miaowMiaowPosition >= 800) {
+					winner = "Miaow Miaow";
+					clearInterval(intervalId);
+				}
+
+				// Oppdater winner-status
+				if (winner) {
+					document.getElementById("winner-status").innerText = winner + " vant løpet!";
+				}
+			}, 1000);
+
+			document.getElementById("move-miaows-left-leg-btn").addEventListener("click", moveMiaowMiaow);
+			document.getElementById("move-miaows-right-leg-btn").addEventListener("click", moveMiaowMiaow);
+
+			function moveMiaowMiaow() {
+				// Beveg Miaow Miaow mellom 5px og 10px av gangen
+				const moveDistance = Math.floor(Math.random() * 6) + 5;
+				miaowMiaowPosition += moveDistance;
+				document.getElementById("miaow-miaow").style.left = miaowMiaowPosition + "px";
+			}
+		</script>
+	</body>
+</html>
